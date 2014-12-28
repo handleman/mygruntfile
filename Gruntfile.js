@@ -45,13 +45,13 @@ module.exports = function(grunt) {
 			// minify all vendor files
 			lib: {
 				files: {
-					'js-min/vendor.min.js': ['js/vendor.js']
+					'js_min/vendor.min.js': ['js/vendor.js']
 
 				}
 			},
 			// minify all local developed module js files
 			mod: {
-				files: grunt.file.expandMapping(['js/_modules/*.js'], 'js-min/_modules/', {
+				files: grunt.file.expandMapping(['js/_modules/*.js'], 'js_min/_modules/', {
 					rename: function(destBase, destPath) {
 						var filename = destPath.match(/.*\/(.*)$/)[1];
 						return destBase + filename.replace('.js', '.min.js');
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
 					noAdvanced: true
 				},
 				files: {
-					'css-min/vendor.min.css': ['css/vendor.css']
+					'css_min/vendor.min.css': ['css/vendor.css']
 				}
 			},
 			//minify only working css file
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 					noAdvanced: true
 				},
 				files: {
-					'css-min/styles.min.css': ['css/styles.css']
+					'css_min/styles.min.css': ['css/styles.css']
 				}
 			}
 		},
@@ -142,21 +142,27 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', ['watch:all']);
 
+	// run all tasks. Make ready project for deploing to production server
 	grunt.registerTask('production', 'Run all my build tasks.', function(n) {
 		grunt.task.run('concat', 'uglify', 'cssmin');
 	});
+	// run all tasks related to .css files both vendor and current
 	grunt.registerTask('css-all', 'Run for css.', function(n) {
 		grunt.task.run('concat:css:all', 'cssmin');
 	});
+	// run all tasks related only to current .css 
 	grunt.registerTask('css-dev', 'Run for css.', function(n) {
 		grunt.task.run('cssmin:main');
 	});
+	// run all tasks related to .jss files both vendor and current
 	grunt.registerTask('js-all', 'run for js', function(n) {
 		grunt.task.run('concat:js','uglify');
 	});
+	// run all tasks related only to current .js 
 	grunt.registerTask('js-dev', 'run for js', function(n) {
 			grunt.task.run('uglify:mod');
 	});
+	// run all task related to venodor files
 	grunt.registerTask('js-vendor', 'run for js', function(n) {
 		grunt.task.run('concat:js','uglify:lib');
 	});
